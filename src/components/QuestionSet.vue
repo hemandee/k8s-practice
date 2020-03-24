@@ -116,7 +116,7 @@
                 return /^[1-9][0-9]?$/.test(v) || 'Must be a number between 1-99'
             },
             btnResumeAttempt() {
-                console.log('resume');
+
                 try {
                     this.$router.push(this.initQNextPath()).catch(err => this.log('ERROR', 'Unable to Navigate ' + err));
                 } catch (e) {
@@ -169,7 +169,7 @@
                 this.previousState = true;
                 this.changeViewLog('Waiting on User Input')
                 if (this.qNavLength !== qbase['qLength']){
-                    console.log('Updated Questions')
+
                     this.updateQuestionMsg = true;
                 }
             } else {

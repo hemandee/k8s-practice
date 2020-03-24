@@ -29,7 +29,7 @@ export default {
             try {
                 this.$store.dispatch("actionUpdateCountDownCustomTimeUp", value)
             } catch (e) {
-                console.log('ERROR','Unable to update CountDown Time '+ e)
+                this.log('ERROR','Unable to update CountDown Time '+ e)
             }
         },
         updateStopwatchCustomWarningTime( value) {
@@ -44,7 +44,7 @@ export default {
             try {
                 this.$store.dispatch('actionReset')
             } catch (e) {
-                console.log('ERROR','Unable to reset '+ e)
+                this.log('ERROR','Unable to reset '+ e)
             }
         },
         btnClearAttempt(){

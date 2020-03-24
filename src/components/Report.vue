@@ -84,7 +84,7 @@
 
         },
         mounted() {
-            console.log('length ',this.progressReport.savedQLength);
+
             if(this.progressReport.savedQLength >= 0 && this.progress.savedQLength !== undefined){
                 this.errorState = true;
                 this.errorMsg = 'No Attempts Recorded';

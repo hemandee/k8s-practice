@@ -147,7 +147,7 @@
                             link: link
                         })
                     } catch (e) {
-                        console.log(e)
+                        this.log('ERROR',e)
 
                     }
                 }

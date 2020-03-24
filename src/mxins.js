@@ -48,7 +48,6 @@ export default {
                             this.log('INFO', org[cat][q].question_no + ' already defined');
                         } else {
 
-                            console.log('Try Add Question');
                             try {
                                 let input = {
                                     category: cat,
@@ -77,7 +76,6 @@ export default {
         },
 
         initQNextPath() {
-            console.log('starting');
             let path = {
                 name: 'Question',
                 params: {
@@ -87,21 +85,17 @@ export default {
             };
             // let path = 'questions/' + this.$store.state.qNav.qSet[0].category + '/' + this.$store.state.qNav.qSet[0].question_no
             for (let item in this.$store.state.qNav.qSet) {
-                console.log(item);
                 let condition = this.$store.state.progress.question_set[this.$store.state.qNav.qSet[item].category]['no' + this.$store.state.qNav.qSet[item].question_no].condition;
 
                 if (condition === 'unmarked') {
                     path.params.category = this.$store.state.qNav.qSet[item].category;
                     path.params.question = this.$store.state.qNav.qSet[item].question_no;
-                    console.log('unmarked', path);
                     return path
                 } else if (condition === 'flag') {
-                    console.log('flag', path);
                     path.params.category = this.$store.state.qNav.qSet[item].category;
                     path.params.question = this.$store.state.qNav.qSet[item].question_no;
                 }
             }
-            console.log('path', path);
             return path
         },
 
@@ -130,7 +124,6 @@ export default {
                 sourceArray[j] = sourceArray[i];
                 sourceArray[i] = temp;
             }
-            console.log(sourceArray);
             return sourceArray;
 
 
