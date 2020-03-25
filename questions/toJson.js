@@ -7,6 +7,7 @@ const path = require('path');
 const fs = require('fs');
 const yaml = require('yaml-front-matter');
 const program = require('commander');
+const chokidar = require('chokidar');
 // Side effects:
 // - Root node of JSON is files key mapping to a dictionary of files
 // - .preview will be first WIDTH characters of the raw content
@@ -80,7 +81,20 @@ const getFiles = function(filename) {
     }
 };
 
+const startCmd = function(filenames,options){
+    if(options.watch){
+        chokidar.watch(filenames).on('all', (event, path) => {
+            console.log(event, path);
+           return parseStart(filenames,options);
+        });
+    }else{
+       return parseStart(filenames,options)
+    }
+}
+
 const parseStart = function(filenames, options) {
+
+
 
     const parseAllTheFiles = {
         lastModified: '',
@@ -137,6 +151,7 @@ program
     .option('-c --content', 'include full content')
     .option('-o --outfile <filename>', 'filename to save json to [output.json]')
     .option('-l --localbuild','Build JSON object to src/assets/')
+    .option('-s --watch, Auto build when files changes')
     .parse(process.argv);
 
 const options = {
@@ -145,6 +160,7 @@ const options = {
     outfile: program.outfile,
     content: program.content,
     localBuild: program.localbuild,
+    watch: program.watch,
 };
 
 // If there's no list of files to process, print usage and quit immediately
@@ -152,7 +168,7 @@ if (!program.args.length) {
     program.help();
 }
 
-const output = parseStart(program.args, options);
+const output = startCmd(program.args, options);
 if (output) {
     process.stdout.write(output);
 }

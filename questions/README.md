@@ -2,14 +2,40 @@
 
 ## Convert Markdown to JSON Object 
 
-JSON object will be used a flat data storage for question set. Folder names inside question_set map to 
+JSON object will be used a flat data storage for question set. Folder names are similar to the to 
 category names shown in [CKA and CKAD Curriculum](https://github.com/cncf/curriculum).
 
 toJSON.js is adapted from [markdown-to-js](https://github.com/scottstanfield/markdown-to-json/tree/1f672307ae360fcd0abbae1e0dfe5caba46e8e6e)
 
-### Format of questions
-Tags are needed to categorize questions. Allows a question to be used in both CKA and CKAD.
+### How to run
 
+To compile locally
+
+```bash
+$node toJson.js -l -m question_set/
+```
+
+To watch folder and compile locally
+```bash
+$node toJson.js --watch -l question_set/
+```
+
+### Output
+
+```
+{
+"lastModified": ISO_DATE,
+"qlength":TOTAL_NUMBER_OF_QUESTIONS,
+"question_set": {
+  "FOLDER_NAME": [],
+  "FOLDER_NAME_TWO" : []
+    },
+}       
+
+
+```
+
+### Format of questions
 
 ```
 ---
@@ -19,8 +45,8 @@ author:
     - AUTHOR_NAME
     - AUTHOR_NAME
 tags: 
-    - CORE_CONCEPTS 
-    - EXAM
+    - Core Concepts
+    - Pods
     - 
 answer: "
     ```bash
@@ -34,3 +60,8 @@ reference:
    - "[Run Pod in Namespace](https://kubernetes.io/docs/tasks/administer-cluster/namespaces/#creating-a-new-namespace)" 
 ---
 ```
+
+
+### Miscellaneous Notes
+
+- https://www.cncf.io/blog/2019/05/10/kubernetes-core-concepts/

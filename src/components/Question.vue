@@ -19,11 +19,11 @@
                         <label v-for="username in author" v-bind:key="username">{{username}} </label>
                     </h3>
                     </div>
-                    <div v-if="viewTags">
+                    <div v-if="viewTags" class="pb-5">
                         <h3>Tags: <v-chip small v-for="chip in tags" :key="chip">{{chip}}</v-chip></h3>
                     </div>
-                    <div class="text-left pa-2">
-                        <h2 class="display-1 text--primary">
+                    <div class="text-left pb-8">
+                        <h2 class="text-primary">
                             {{question}}
                         </h2>
                     </div>

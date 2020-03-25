@@ -1,1 +1,131 @@
-{"lastModified":"2020-03-24T18:56:54.024Z","question_set":{"core_concepts":[{"question_no":1,"question":"Create a namespace called 'mynamespace' and a pod with image nginx called nginx on this namespace","author":["SOMETHING"],"tags":["Core Concepts","Namespaces","Pods"],"answer":"```bash\nkubectl create namespace mynamespace\nkubectl run nginx --image=nginx --restart=Never -n mynamespace\n```\n","reference":["[Creating Namespace](https://kubernetes.io/docs/tasks/administer-cluster/namespaces/#creating-a-new-namespace)","[Run Pod in Namespace](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/#setting-the-namespace-for-a-request)"],"preview":"","basename":"q_1"},{"question_no":2,"question":"Create the pod that was just described using YAML","author":["SOMETHING","OTHER THING"],"tags":["CORE_CONCEPTS"],"answer":"\n```bash\n# Easily generate YAML with:\nkubectl run nginx --image=nginx --restart=Never --dry-run -o yaml > pod.yaml\n```\n\n```bash\n# View the Pod \ncat pod.yaml\n```\n\n```yaml\napiVersion: v1\nkind: Pod\nmetadata:\n  creationTimestamp: null\n  labels:\n    run: nginx\n  name: nginx\nspec:\n  containers:\n  - image: nginx\n    imagePullPolicy: IfNotPresent\n    name: nginx\n    resources: {}\n  dnsPolicy: ClusterFirst\n  restartPolicy: Never\nstatus: {}\n```\n\n```bash\n# Create the pod from file with namespace overwrite\nkubectl create -f pod.yaml -n mynamespace\n```\n\n```bash\n# Alternatively, you can run in one line\nkubectl run nginx --image=nginx --restart=Never --dry-run -o yaml | kubectl create -n mynamespace -f -\n```\n","preview":"","basename":"q_2"}],"networking":[{"question_no":1,"question":"Create a pod with image nginx called nginx and expose its port 80 Create a pod with image nginx called nginx and expose its port 80 Create a pod with image nginx called nginx and expose its port 80 Create a pod with image nginx called nginx and expose its port 80 Create a pod with image nginx called nginx and expose its port 80","author":["SOMETHING"],"tags":["Services and Networking"],"answer":"```bash\n    kubectl run nginx --image=nginx --restart=Never --port=80 --expose\n    # observe that a pod as well as a service are created\n```\n","reference":["[Creating Namespace](https://kubernetes.io/docs/tasks/administer-cluster/namespaces/#creating-a-new-namespace)","[Run Pod in Namespace](https://kubernetes.io/docs/tasks/administer-cluster/namespaces/#creating-a-new-namespace)"],"preview":"","basename":"q_1"},{"question_no":2,"question":"NETWORKING QUESTION 2","author":["SOMETHING"],"tags":["Services and Networking"],"answer":"```bash\n    kubectl run nginx --image=nginx --restart=Never --port=80 --expose\n    # observe that a pod as well as a service are created\n```\n","reference":["[Creating Namespace](https://kubernetes.io/docs/tasks/administer-cluster/namespaces/#creating-a-new-namespace)","[Run Pod in Namespace](https://kubernetes.io/docs/tasks/administer-cluster/namespaces/#creating-a-new-namespace)"],"preview":"","basename":"q_2"}]},"qLength":4}
+{
+  "lastModified": "2020-03-25T17:18:17.408Z",
+  "question_set": {
+    "core_concepts": [
+      {
+        "question_no": 1,
+        "question": "Create a pod using image nginx:latest in namespace magikarp using CLI and YAML files",
+        "author": [
+          "hemandee"
+        ],
+        "tags": [
+          "Core Concepts",
+          "Pods",
+          "Namespaces"
+        ],
+        "answer": "```bash\n$kubectl create namespace mynamespace\n$kubectl run nginx --image=nginx --restart=Never -n goldfish\n```\n```yaml\napiVersion: v1\nkind: Namespace\nmetadata:\n  creationTimestamp: null\n  name: goldfish\nspec: {}\nstatus: {}\n---\napiVersion: v1\nkind: Pod\nmetadata:\n  creationTimestamp: null\n  namespace: goldfish\n  labels:\n    run: nginx\n  name: nginx\nspec:\n  containers:\n  - image: nginx\n    name: nginx\n    resources: {}\n  dnsPolicy: ClusterFirst\n  restartPolicy: Never\nstatus: {}\n```\n",
+        "reference": [
+          "[Creating Namespace](https://kubernetes.io/docs/tasks/administer-cluster/namespaces/#creating-a-new-namespace)",
+          "[Run Pod in Namespace](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/#setting-the-namespace-for-a-request)"
+        ],
+        "preview": "",
+        "basename": "q_1"
+      },
+      {
+        "question_no": 2,
+        "question": "Create a deployment called vulpix using image gcr.io/google-samples/hello-app:1.0 with three replicas. Confirm successful application deployment by outputting the result to file",
+        "author": [
+          "hemandee"
+        ],
+        "tags": [
+          "Core Concepts",
+          "Deployment"
+        ],
+        "answer": "```bash\n# Generate yaml from create statement\nkubectl create deployment vulpix --image=gcr.io/google-samples/hello-app:1.0 --dry-run -o yaml >> vulpix.yaml\n```   \n```yaml\napiVersion: apps/v1\nkind: Deployment\nmetadata:\n  creationTimestamp: null\n  labels:\n    app: vulpix\n  name: vulpix\nspec:\n  replicas: 3\n  selector:\n    matchLabels:\n      app: vulpix\n  strategy: {}\n  template:\n    metadata:\n      creationTimestamp: null\n      labels:\n        app: vulpix\n    spec:\n      containers:\n      - image: gcr.io/google-samples/hello-app:1.0\n        name: hello-app\n        ports:\n           - containerPort: 8080\n        resources: {}\nstatus: {}\n```\n```bash\n# Get IPs Addresses of Pods\n$kubectl get pod -o wide\n# Confirm app endpoint\n$curl <pod ip address>:8080 > vulpix-output.txt\n\n$cat vulpix-output.txt\nHello, world!\nVersion: 1.0.0\nHostname: vulpix-XXXXXXXX\n```\n",
+        "reference": [
+          "[Creating Deployment](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#creating-a-deployment)"
+        ],
+        "preview": "",
+        "basename": "q_2"
+      },
+      {
+        "question_no": 3,
+        "question": "Create a pod called Gengar using busybox:latest that terminates after successfully running command ['echo','Night Shade']. Verify output.",
+        "author": [
+          "hemandee"
+        ],
+        "tags": [
+          "Core Concepts",
+          "Jobs"
+        ],
+        "answer": "```bash\n# Run Job\n$kubectl create job --image=busybox gengar -- echo Night Shade\n# Get pods name filter by job-name\n$kubectl get pods -l job-name=gengar\n# Get logs of pod\n$kubectl logs gengar-xxxx\n```   \n```yaml\napiVersion: batch/v1\nkind: Job\nmetadata:\n  creationTimestamp: null\n  name: gengar\nspec:\n  template:\n    metadata:\n      creationTimestamp: null\n    spec:\n      containers:\n      - command:\n        - echo\n        - Night\n        - Shade\n        image: busybox\n        name: gengar\n        resources: {}\n      restartPolicy: Never\nstatus: {}\n```\n",
+        "reference": [
+          "[Running Job](https://kubernetes.io/docs/concepts/workloads/controllers/jobs-run-to-completion/#running-an-example-job)"
+        ],
+        "preview": "",
+        "basename": "q_3"
+      },
+      {
+        "question_no": 4,
+        "question": "Create a configmap called doduo based on a file called values.txt that contains badges=10 lives=1 name=johto.\nVerify configmap has proper values. \n",
+        "author": [
+          "hemandee"
+        ],
+        "tags": [
+          "Core Concepts",
+          "ConfigMaps"
+        ],
+        "answer": "```bash\n# Echo values into file values.txt\necho badges=10 >> values.txt\necho lives=1 >> values.txt\necho name=johto >> values.txt\n\n# Create configmap\n$kubectl create configmap doduo --from-file=values.txt\n\n# Verify configmap values\n$kubectl describe configmap doduo\n```   \n",
+        "reference": [
+          "[Create ConfigMaps](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#create-configmaps-from-files)"
+        ],
+        "preview": "",
+        "basename": "q_4"
+      },
+      {
+        "question_no": 5,
+        "question": "Create a secret called beedril that contains type=bug weak=fire using commandline.\nCreate another secret called moltres that contains type=fire weak=water from yaml.\nVerify secrets has proper values. \n",
+        "author": [
+          "hemandee"
+        ],
+        "tags": [
+          "Core Concepts",
+          "Secrets"
+        ],
+        "answer": "```bash\n# Create beedril secret using commandline\n$kubectl create secret generic beedril --from-literal=type=bug --from-literal=weak=fire\n\n# Create moltres values to base64 \n$echo -n 'fire' | base64\n$echo -n 'water' | base64\n```   \n```yaml\n# Create moltres using yaml\napiVersion: v1\ndata:\n  type: ZmlyZQ==\n  weak: d2F0ZXI=\nkind: Secret\nmetadata:\n  creationTimestamp: null\n  name: moltres\n```\n```bash\n# Get the yaml\n$kubectl get secrets beedril -o yaml\n# Decode base64 balues\necho -n 'YnVn' | base64 --decode\n```\n",
+        "reference": [
+          "[Create Secrets](https://kubernetes.io/docs/concepts/configuration/secret/#creating-your-own-secrets)"
+        ],
+        "preview": "",
+        "basename": "q_5"
+      }
+    ],
+    "networking": [
+      {
+        "question_no": 1,
+        "question": "Create a pod with image nginx called nginx and expose its port 80 Create a pod with image nginx called nginx and expose its port 80 Create a pod with image nginx called nginx and expose its port 80 Create a pod with image nginx called nginx and expose its port 80 Create a pod with image nginx called nginx and expose its port 80",
+        "author": [
+          "SOMETHING"
+        ],
+        "tags": [
+          "Services and Networking"
+        ],
+        "answer": "```bash\n    kubectl run nginx --image=nginx --restart=Never --port=80 --expose\n    # observe that a pod as well as a service are created\n```\n",
+        "reference": [
+          "[Creating Namespace](https://kubernetes.io/docs/tasks/administer-cluster/namespaces/#creating-a-new-namespace)",
+          "[Run Pod in Namespace](https://kubernetes.io/docs/tasks/administer-cluster/namespaces/#creating-a-new-namespace)"
+        ],
+        "preview": "",
+        "basename": "q_1"
+      },
+      {
+        "question_no": 2,
+        "question": "NETWORKING QUESTION 2",
+        "author": [
+          "SOMETHING"
+        ],
+        "tags": [
+          "Services and Networking"
+        ],
+        "answer": "```bash\n    kubectl run nginx --image=nginx --restart=Never --port=80 --expose\n    # observe that a pod as well as a service are created\n```\n",
+        "reference": [
+          "[Creating Namespace](https://kubernetes.io/docs/tasks/administer-cluster/namespaces/#creating-a-new-namespace)",
+          "[Run Pod in Namespace](https://kubernetes.io/docs/tasks/administer-cluster/namespaces/#creating-a-new-namespace)"
+        ],
+        "preview": "",
+        "basename": "q_2"
+      }
+    ]
+  },
+  "qLength": 7
+}
