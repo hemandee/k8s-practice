@@ -25,6 +25,7 @@ const waitForStorageToBeReady = async (to, from, next) => {
 };
 
 const router = new VueRouter({
+    // Github Pages does not work with history mode unless custom 404 page is included
     mode: 'history',
     base: process.env.NODE_ENV === 'production'
         ? '/k8s-practice'
