@@ -3,9 +3,9 @@
     <v-row
       justify="center"
       dense
-    no-gutters
+      no-gutters
     >
-        Developed with ❤️  <a href="https://github.com/dragonlegs/k8-tester" >k8-tester GitHub</a> &copy; {{ new Date().getFullYear() }}
+        Developed with ❤️  <a href="https://github.com/hemandee/k8s-practice" >k8s Practice GitHub</a> &copy; {{ new Date().getFullYear() }}
   </v-row>
 
     </v-container>

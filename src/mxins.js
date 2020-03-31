@@ -163,6 +163,13 @@ export default {
         },
         addMinutesToDate(date, seconds) {
             return new Date(date.getTime() + seconds * 1000);
+        },
+        padSec(value) {
+            if (value < 10) {
+                return "0" + value
+            } else {
+                return value
+            }
         }
     }
 }

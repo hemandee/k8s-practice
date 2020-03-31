@@ -8,7 +8,7 @@
                 permanent
         >
             <!-- -->
-            <SideNav appName="K8 Practice"/>
+            <SideNav appName="K8S Practice"/>
         </v-navigation-drawer>
 
         <v-app-bar
@@ -36,7 +36,7 @@
         <v-footer
                 app
                 inset
-                padless
+                dense
                 class="d-none d-sm-flex d-sm-none d-md-flex">
             <!-- -->
             <Footer/>

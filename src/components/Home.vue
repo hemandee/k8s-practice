@@ -2,7 +2,7 @@
 <template>
 
     <v-container>
-       <h2>Welcome to K8-Test!</h2>
+       <h2>Welcome to K8-Practice!</h2>
         <p>Let's get started press Start! </p>
         <div class="my-2">
             <v-btn

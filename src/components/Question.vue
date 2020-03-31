@@ -1,7 +1,7 @@
 <template>
 
     <v-card
-            class="mx-auto"
+
 
     >
 
@@ -13,7 +13,7 @@
         >
                 <div :key="question_no + question"
                      :class="[timeManagement === 'disable' ? 'scroll-target-no-clock' : 'scroll-target']">
-                    <div><h2>Question No {{question_no}}</h2></div>
+                    <div><h2>Question No {{qNavIndex}}</h2></div>
                     <div>
                     <h3>Author:
                         <label v-for="username in author" v-bind:key="username">{{username}} </label>
@@ -154,18 +154,63 @@
 
                 return parsedText
             },
+            captureTimeCompletion(){
+                let timeMangement = this.$refs.digiClock.timeManagement;
+                console.log('Time management is ',timeMangement);
+                let input = {
+                    qNo: 'no' + this.question_no,
+                    cat: this.category,
+                    time: 0
+                }
+                if (timeMangement === 'countdown'){
+                    let minutes = this.$refs.digiClock.minutes * 60;
+                    let seconds = minutes + this.$refs.digiClock.seconds;
+                    let totalSeconds = this.$refs.digiClock.countDownTimeUp * 60;
+                    input['time'] = totalSeconds - seconds;
+                    console.log('Time to completion',input['time'])
+                }else{
+
+                    input['time'] = this.$refs.digiClock.stopwatchSeconds;
+                    console.log('Time to completion',input['time']);
+                }
+
+                console.log(input);
+                try{
+                    this.$store.dispatch('actionUpdateTimeQuestion',input);
+
+                }catch(e){
+                    this.log('ERROR','Unable to add Question Time ',e);
+                }
+
+            },
+            removeTimeCompletion(){
+                let input = {
+                    qNo: 'no' + this.question_no,
+                    cat: this.category,
+                    time: 0
+                }
+                try{
+                    this.$store.dispatch('actionUpdateTimeQuestion',input);
+
+                }catch(e){
+                    this.log('ERROR','Unable to add Question Time ',e);
+                }
+            },
             updateCondition(btn) {
                 try {
                     let input = 'unmarked';
                     switch (btn) {
                         case 'completed':
                             input = 'completed';
+                            this.captureTimeCompletion();
                             break;
                         case 'flag':
                             input = 'flag';
+                            this.removeTimeCompletion();
                             break;
                         case 'unmarked':
                             input = 'unmarked';
+                            this.removeTimeCompletion();
                             break;
                         default:
                             this.log('ERROR', 'Unknown Question Condition Reset: ', btn)
@@ -214,9 +259,11 @@
             category: function() {return this.$route.params.category},
             answer: function() { return qbase['question_set'][this.$route.params.category][this.$route.params.question - 1].answer},
             tags: function () {return qbase['question_set'][this.$route.params.category][this.$route.params.question - 1].tags},
+
             ...mapState({
                 viewTags: state => state.settings.options.viewTags,
-                timeManagement: state =>state.settings.options.timeManagement
+                timeManagement: state =>state.settings.options.timeManagement,
+                qNavIndex: state => state.qNav.currentPos +1
             })
 
 
@@ -263,8 +310,10 @@
 
 <style>
     .scroll-target {
-        height: calc(100vh - 290px);
+        height: calc(100vh - 332px);
+        /*height: 100%*/
         overflow-y: auto;
+        overflow-x: hidden;
 
     }
 

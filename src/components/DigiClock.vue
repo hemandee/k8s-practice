@@ -15,9 +15,9 @@
                 <v-row
                         justify="end"
                 >
-                    <v-btn @click="debugAddTime">Add Time</v-btn>
+                    <v-btn v-if="isDevelopment" @click="debugAddTime">Add Time</v-btn>
                     <div class="clock">
-                        <span class="clockMinutes" v-text="minutes"></span>
+                        <span class="clockMinutes" v-text="padSec(minutes)"></span>
                         <span class="clockBreaker">:</span>
                         <span class="clockSeconds" v-text="padSec(seconds)"></span>
 
@@ -28,24 +28,21 @@
 
                     >
                         <div v-if="hover">
-<!--                                                    <div v-if="!hover || hover">-->
                             <v-icon large class="pl-5" v-if="running" @click="player">pause</v-icon>
                             <v-icon large class="pl-5" v-if="!running" @click="player">play_arrow</v-icon>
                             <v-icon large class="pl-5" @click="resetClock">update</v-icon>
                         </div>
                     </transition>
                 </v-row>
-                <v-alert
-
-                        dense
-                        type="warning"
-                        v-if="alert"
-                        dismissible
-
-
+                <v-snackbar
+                        top
+                        color="warning"
+                        :timeout="timeout"
+                        :value="alert"
                 >
-                    Stopwatch Warning every {{stopwatchCustomWarningTime}} min <v-icon @click="function(){alert = false}">close</v-icon>
-                </v-alert>
+                    Stopwatch Warning every {{stopwatchCustomWarningTime}} min
+                    <v-icon @click="alert = false">close</v-icon>
+                </v-snackbar>
 
             </v-card-text>
         </v-card>
@@ -62,7 +59,7 @@
         props: ['appName'],
         mixins: [mxins],
         methods: {
-           
+
             getTimeRemaining() {
                 let t = Date.parse(this.currTimeStamp) - Date.parse(new Date());
                 let seconds = Math.floor((t / 1000) % 60);
@@ -92,13 +89,7 @@
 
 
             },
-            padSec(value) {
-                if (value < 10) {
-                    return "0" + value
-                } else {
-                    return value
-                }
-            },
+
             player() {
                 this.running = !this.running;
                 if (this.running === false) {
@@ -108,7 +99,7 @@
                         this.currTimeStamp = this.addMinutesToDate(new Date(), (this.minutes * 60) + this.seconds);
                         this.getTimeRemaining();
                         this.$options.interval = setInterval(this.getTimeRemaining, 1000)
-                    }else{
+                    } else {
                         this.stopwatch();
                         this.$options.interval = setInterval(this.stopwatch, 1000)
                     }
@@ -116,23 +107,23 @@
 
 
             },
-            resetClock(){
-              if (this.timeManagement === 'countdown'){
-                  this.currTimeStamp = this.addMinutesToDate(new Date(), this.$store.state.settings.options.countdown.customTimeUp * 60);
-                  this.minutes = this.countDownTimeUp;
-                  this.seconds =0
+            resetClock() {
+                if (this.timeManagement === 'countdown') {
+                    this.currTimeStamp = this.addMinutesToDate(new Date(), this.$store.state.settings.options.countdown.customTimeUp * 60);
+                    this.minutes = this.countDownTimeUp;
+                    this.seconds = 0
 
-              } else{
-                  this.stopwatchSeconds = 0;
-                  this.minutes =0;
-                  this.seconds =0
-              }
+                } else {
+                    this.stopwatchSeconds = 0;
+                    this.minutes = 0;
+                    this.seconds = 0
+                }
             },
-            debugAddTime(){
-                    this.stopwatchSeconds += 55
+            debugAddTime() {
+                this.stopwatchSeconds += 55
 
             },
-            initClock(){
+            initClock() {
                 switch (this.timeManagement) {
                     case 'disable':
 
@@ -149,8 +140,9 @@
                         this.stopwatch();
                         this.$options.interval = setInterval(this.stopwatch, 1000)
                 }
-            },
-        },
+            }
+        }
+        ,
         watch: {
             // '$route'() {
             //     this.log('INFO','Start Clock')
@@ -163,7 +155,7 @@
         },
         mounted() {
 
-                this.initClock()
+            this.initClock()
 
         },
         beforeDestroy() {
@@ -182,9 +174,9 @@
                 minutes: 0,
                 seconds: 0,
                 stopwatchSeconds: 0,
-                alert: false
-
-
+                alert: false,
+                timeout: 60000,
+                isDevelopment: process.env.NODE_ENV === 'development'
             }
         },
     }
@@ -195,7 +187,7 @@
 
         margin: 0.2em;
         font-size: x-large;
-        font-family: Righteous,serif;
+        font-family: Righteous, serif;
 
 
     }

@@ -3,7 +3,8 @@
 
         <v-row
                 no-gutters
-                class="pb-12"
+                class="pb-8"
+
         >
 
             <v-col>

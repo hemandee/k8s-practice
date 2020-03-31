@@ -65,3 +65,6 @@ reference:
 ### Miscellaneous Notes
 
 - https://www.cncf.io/blog/2019/05/10/kubernetes-core-concepts/
+- https://github.com/cncf/curriculum
+- https://www.cncf.io/wp-content/uploads/2019/02/rx-m-webinar-everything-you-need-to-know-about-the-cka-ckad.pdf
+- https://training.linuxfoundation.org/training/kubernetes-administration/#outline

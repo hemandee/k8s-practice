@@ -10,6 +10,7 @@ import Question from "./components/Question";
 import ErrorPage from "./components/ErrorPage";
 import store from "./store/index"
 import Report from "./components/Report";
+import About from "./components/About";
 
 Vue.use(VueRouter);
 
@@ -35,6 +36,7 @@ const router = new VueRouter({
         {path: '/questions/', component: QuestionSet, name: "Practice Questions"},
         {path: '/questions/:category/:question', component: Question, name: "Question"},
         {path: '/report', component: Report, name: "Report"},
+        {path: '/about',component: About, name: "About"},
         {path: '*', component: ErrorPage , name: 'ErrorPage'}
 
     ]

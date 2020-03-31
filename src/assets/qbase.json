@@ -1,5 +1,5 @@
 {
-  "lastModified": "2020-03-25T17:18:17.408Z",
+  "lastModified": "2020-03-30T22:45:53.931Z",
   "question_set": {
     "core_concepts": [
       {
@@ -88,22 +88,40 @@
         ],
         "preview": "",
         "basename": "q_5"
+      },
+      {
+        "question_no": 6,
+        "question": "Create a DaemonSet called golem that using image busybox:latest and command sleep 3600.\n",
+        "author": [
+          "hemandee"
+        ],
+        "tags": [
+          "Core Concepts",
+          "DaemonSet"
+        ],
+        "answer": "```bash\n# One way to generate simple DaemonSet \n$kubectl create deployment golem --image=busybox -o yaml --dry-run > golem.yaml\n# Remove replicas,status and strategy keys and add args. Change kind to DaemonSet\n```   \n```yaml\napiVersion: apps/v1\nkind: DaemonSet\nmetadata:\n  creationTimestamp: null\n  labels:\n    app: golem\n  name: golem\nspec:\n  selector:\n    matchLabels:\n      app: golem\n  template:\n    metadata:\n      creationTimestamp: null\n      labels:\n        app: golem\n    spec:\n      containers:\n      - image: busybox\n        name: busybox\n        args: ['sleep','3600']\n        resources: {}\n```\n",
+        "reference": [
+          "[Create DaemonSet](https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/#writing-a-daemonset-spec)",
+          "[Generate DaemonSet](https://stackoverflow.com/a/56097744)"
+        ],
+        "preview": "",
+        "basename": "q_6"
       }
     ],
     "networking": [
       {
         "question_no": 1,
-        "question": "Create a pod with image nginx called nginx and expose its port 80 Create a pod with image nginx called nginx and expose its port 80 Create a pod with image nginx called nginx and expose its port 80 Create a pod with image nginx called nginx and expose its port 80 Create a pod with image nginx called nginx and expose its port 80",
+        "question": "Create a pod called drowzee using image nginx:latest with container port 80. Bind pod to localhost port 9600.\n",
         "author": [
-          "SOMETHING"
+          "hemandee"
         ],
         "tags": [
-          "Services and Networking"
+          "Networking",
+          "Troubleshooting"
         ],
-        "answer": "```bash\n    kubectl run nginx --image=nginx --restart=Never --port=80 --expose\n    # observe that a pod as well as a service are created\n```\n",
+        "answer": "```bash\n# Create Pod using the cmd\n$kubectl run drowzee --image=nginx:latest --restart=Never --port 80\n# Run port-forward to bind pod port locally\n$kubectl port-forward pods/drowzee  9600:80\n# Verify by accessing endpoint\n$curl localhost:9600  \n```\nor\n```bash\n# Single Terminal Verification\n# Run port-forward to bind pod port locally using nohup\n$nohup kubectl port-forward pods/drowzee  9600:80 &\n# Verify by accessing endpoint\n$curl localhost:9600\n# Verify access output in nohup.out\n$cat nohup.out\n# Kill port-forward process\n$ps aux | grep kubectl \n$kill pid   \n```\n",
         "reference": [
-          "[Creating Namespace](https://kubernetes.io/docs/tasks/administer-cluster/namespaces/#creating-a-new-namespace)",
-          "[Run Pod in Namespace](https://kubernetes.io/docs/tasks/administer-cluster/namespaces/#creating-a-new-namespace)"
+          "[Port Forwarding](https://kubernetes.io/docs/tasks/access-application-cluster/port-forward-access-application-cluster/#forward-a-local-port-to-a-port-on-the-pod)"
         ],
         "preview": "",
         "basename": "q_1"
@@ -127,5 +145,5 @@
       }
     ]
   },
-  "qLength": 7
+  "qLength": 8
 }

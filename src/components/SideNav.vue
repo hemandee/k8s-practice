@@ -52,7 +52,7 @@
             return {
                 items: [
                     {title: 'Home', icon: 'dashboard', path: '/'},
-                    {title: 'Question', icon: 'question_answer', path: '/questions'},
+                    {title: 'Practice', icon: 'question_answer', path: '/questions'},
                     {title: 'Report', icon: 'assessment', path: '/report'},
                     {title: 'Logs', icon: 'message', path: '/logs'},
                     {title: 'Settings', icon: 'settings', path: '/settings'},

@@ -75,7 +75,7 @@ export default new Vuex.Store({
             }
         },
         getCurrentPage(state){
-            console.log(state.qNav.currentPos +1)
+
             return parseInt(state.qNav.currentPos +1) || 1
         }
 
@@ -154,7 +154,7 @@ export default new Vuex.Store({
         },
         commitUpdateCurrentPosQNav(state, input) {
             state.qNav.currentPos = input;
-            console.log('updated currentpos to', state.qNav.currentPos)
+            // console.log('updated currentpos to', state.qNav.currentPos)
         },
         commitUpdateQuestionCondition(state, input) {
             console.log(input);
@@ -169,6 +169,11 @@ export default new Vuex.Store({
         },
         commitViewTags(state,input){
             state.settings.options.viewTags = input;
+        },
+        commitUpdateTimeQuestion(state,input){
+            let cat = input['cat'];
+            let question = input['qNo'];
+            state.progress.question_set[cat][question]['completionTime'] = input['time']
         }
     },
     actions: {
@@ -280,6 +285,14 @@ export default new Vuex.Store({
                 context.commit('commitViewTags',input);
             }else{
                 console.log('Unable to update viewTags settings input not boolean ',input)
+            }
+        },
+        actionUpdateTimeQuestion(context,input){
+            const conditionKeys = ['qNo', 'cat', 'time'];
+            if (conditionKeys.every(key => Object.keys(input).includes(key))) {
+                context.commit('commitUpdateTimeQuestion', input)
+            }else{
+                console.log('Unable to update Question Time',input)
             }
         }
     },
