@@ -83,16 +83,16 @@
     /*html{*/
     /*    overflow-y: hidden;*/
     /*}*/
-    html {
-        overflow: hidden !important;
-        scrollbar-width: none;
-        -ms-overflow-style: none;
-    }
+    /*html {*/
+    /*    overflow: hidden !important;*/
+    /*    scrollbar-width: none;*/
+    /*    -ms-overflow-style: none;*/
+    /*}*/
 
-    html::-webkit-scrollbar {
-        width: 0;
-        height: 0;
-    }
+    /*html::-webkit-scrollbar {*/
+    /*    width: 0;*/
+    /*    height: 0;*/
+    /*}*/
     .slide-left-enter-active,
     .slide-left-leave-active,
     .slide-right-enter-active,

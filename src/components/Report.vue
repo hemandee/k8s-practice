@@ -27,24 +27,34 @@
         </v-container>
         <div v-if="!errorState">
 
-            <v-expansion-panels focusable class="scroll-target">
-                <v-row>
-                    <v-col cols="1">
+            <v-expansion-panels v-model="panelValue" focusable class="scroll-target">
 
-                    </v-col>
-                    <v-col class="pl-8">
-                        Category
-                    </v-col>
-                    <v-col>
-                        Question
-                    </v-col>
-                    <v-col>
-                        Attempt
-                    </v-col>
-                    <v-col>
-                        Completion Time
-                    </v-col>
-                </v-row>
+                <v-expansion-panel disabled>
+                    <v-expansion-panel-header>
+                        <v-row no-gutters>
+                            <v-col cols="1">
+                                Q No.
+                            </v-col>
+                            <v-col cols="2">
+                                Category
+                            </v-col>
+                            <v-col cols="3">
+                                Question
+                            </v-col>
+                            <v-col cols="1" class="pl-3">
+                                Attempt
+                            </v-col>
+                            <v-col>
+                                {{panelValue}}
+                            </v-col>
+                            <v-spacer></v-spacer>
+                            <v-col>
+                                Completion Time
+                            </v-col>
+
+                        </v-row>
+                    </v-expansion-panel-header>
+                </v-expansion-panel>
                 <v-expansion-panel
                         v-for="(item,index) in qNav" :key="index"
                 >
@@ -53,12 +63,12 @@
                     <v-expansion-panel-header v-slot="{ open }">
                         <v-row>
                             <v-col cols="1">
-                                <div class="pb-2">Question: {{index +1 }}</div>
+                                <div class="">{{index +1 }}</div>
                             </v-col>
-                            <v-col>
+                            <v-col cols="2">
                                 {{item.category.replace(/[_]/g, ' ').toUpperCase()}}
                             </v-col>
-                            <v-col>
+                            <v-col cols="3">
 
                                 <div>
                                     <v-fade-transition hide-on-leave>
@@ -78,13 +88,14 @@
                                     </v-fade-transition>
                                 </div>
                             </v-col>
-                            <v-col>
+                            <v-col cols="1">
 
                                 <p :class="tileColor(item.category,item.question_no)">
-                                    {{retrieveCondition(item.category,item.question_no).toUpperCase()}}</p>
+                                    {{retrieveCondition(item.category,item.question_no).toUpperCase().trim()}}</p>
 
                             </v-col>
-                            <v-col>
+                            <v-spacer></v-spacer>
+                            <v-col >
                                 <p v-if="retrieveCondition(item.category,item.question_no) === 'completed'">
                                     {{retrieveCompletionTime(item.category,item.question_no)}}</p>
                             </v-col>
@@ -119,7 +130,6 @@
                                     <div v-else>
                                         {{code.text}}
                                     </div>
-
                                 </div>
 
                             </div>
@@ -155,6 +165,7 @@
                 this.errorState = true;
                 this.errorMsg = 'No Attempts Recorded';
             }
+
 
         },
 
@@ -216,6 +227,10 @@
                         return ''
 
                 }
+            },
+            highlightCode(){
+                console.log('Highliten code');
+                Prism.highlightAll()
             }
         },
 
@@ -224,9 +239,16 @@
                 errorMsg: false,
                 progress: this.$store.state.progress.question_set,
                 qNav: this.$store.state.qNav.qSet,
-                errorState: false
+                errorState: false,
 
 
+
+            }
+        },
+        watch: {
+            panelValue : function(elm){
+                console.log(elm)
+                this.highlightCode()
             }
         }
     }
@@ -250,5 +272,9 @@
 
     .font-increase {
         font-size: 120%
+    }
+    pre {
+        overflow: auto;
+
     }
 </style>
