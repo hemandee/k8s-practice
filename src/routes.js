@@ -15,13 +15,13 @@ import About from "./components/About";
 Vue.use(VueRouter);
 
 const waitForStorageToBeReady = async (to, from, next) => {
+    document.title = 'k8s Practice - ' + to.name || 'k8s Practice';
     try {
         await store.restored;
     }catch (e){
         console.log(e)
     }
     next()
-    // store.restored.then(next()).catch(e => console.log(e))
 };
 
 const router = new VueRouter({
@@ -38,7 +38,7 @@ const router = new VueRouter({
         {path: '/questions/:category/:question', component: Question, name: "Question"},
         {path: '/report', component: Report, name: "Report"},
         {path: '/about',component: About, name: "About"},
-        {path: '*', component: ErrorPage , name: 'ErrorPage'}
+        {path: '*', component: ErrorPage , name: 'Error'}
 
     ]
 });

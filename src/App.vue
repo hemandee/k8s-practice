@@ -1,3 +1,4 @@
+
 <template>
     <v-app>
         <v-navigation-drawer
@@ -48,10 +49,11 @@
     import SideNav from './components/SideNav.vue'
     import AppBar from "./components/AppBar";
     import {mapGetters, mapState} from 'vuex';
-
+    /* eslint-disable */
     export default {
         name: 'App',
         mounted() {
+
 
         },
         components: {
@@ -67,9 +69,6 @@
         },
         watch : {
             settings(){
-                // console.log(newVal,oldVal)
-                // console.log("Getting Theme App Color " + this.$store.state.settings.options.theme)
-                // console.log(this.$store.state)
                 this.$vuetify.theme.dark = this.$store.getters.getThemeBool
             }
         },
@@ -83,16 +82,16 @@
     /*html{*/
     /*    overflow-y: hidden;*/
     /*}*/
-    html {
-        overflow: hidden !important;
-        scrollbar-width: none;
-        -ms-overflow-style: none;
-    }
+    /*html {*/
+    /*    overflow: hidden !important;*/
+    /*    scrollbar-width: none;*/
+    /*    -ms-overflow-style: none;*/
+    /*}*/
 
-    html::-webkit-scrollbar {
-        width: 0;
-        height: 0;
-    }
+    /*html::-webkit-scrollbar {*/
+    /*    width: 0;*/
+    /*    height: 0;*/
+    /*}*/
     .slide-left-enter-active,
     .slide-left-leave-active,
     .slide-right-enter-active,

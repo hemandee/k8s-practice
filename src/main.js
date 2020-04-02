@@ -8,6 +8,9 @@ import 'prismjs/themes/prism-twilight.css'
 import 'prismjs/components/prism-bash.min'
 import 'prismjs/components/prism-yaml.min'
 import 'prismjs/components/prism-markdown.min'
+import 'prismjs/plugins/toolbar/prism-toolbar.min'
+import 'prismjs/plugins/toolbar/prism-toolbar.css'
+
 
 Vue.config.productionTip = false;
 Vue.config.errorHandler = function (err, vm, info)  {

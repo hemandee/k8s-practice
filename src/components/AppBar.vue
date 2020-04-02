@@ -6,7 +6,7 @@
             <v-toolbar-title
                     id="app-bar-title"
             >
-                {{currentRouteName()}}
+                {{currentRouteName}}
             </v-toolbar-title>
 
             <v-spacer></v-spacer>
@@ -38,12 +38,19 @@
     export default {
         name: 'AppBar',
         props: ['appName'],
-        computed: {},
-        methods: {
-            currentRouteName() {
-                // console.log(this.$route);
+        computed: {
+
+            currentRouteName (){
+                // let name = this.$route.name;
+                // if (name === 'Question'){
+                //     name = name + " - "
+                // }
+                // return name;
                 return this.$route.name
             }
+        },
+        methods: {
+
         },
         data() {
             return {}
