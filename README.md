@@ -7,7 +7,7 @@ WIP
 
 ## Information
 
-Tool to help with working through common k8s situations. 
+Tool to help with working through common k8s situations.
 
 ## Project setup
 
