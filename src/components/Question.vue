@@ -23,7 +23,7 @@
                         <h3>Tags: <v-chip small v-for="chip in tags" :key="chip">{{chip}}</v-chip></h3>
                     </div>
                     <div class="text-left pb-8">
-                        <h2 class="text-primary">
+                        <h2 class="text-primary question">
                             {{question}}
                         </h2>
                     </div>
@@ -56,7 +56,6 @@
 
                                 </div>
                             </v-expansion-panel-content>
-
 
                         </v-expansion-panel>
                         <v-expansion-panel
@@ -122,6 +121,7 @@
     import DigiClock from "./DigiClock";
     import QuestionToolbar from "./QuestionToolBar";
     import {mapState} from "vuex";
+
 
     export default {
         name: 'Question',
@@ -237,13 +237,20 @@
 
         },
         mounted() {
-
+            if (this.$store.state.qNav.qSet.length === 0 || Object.keys(this.$store.state.progress.question_set).length === 0 ){
+                this.log('ERROR', 'No Saved QSet or Attempt Redirect');
+               let changePath = {
+                   name: 'Practice Questions'
+               };
+                this.$router.push(changePath).catch(err => this.log('INFO', 'Unable to Navigate ' + err));
+            }
             try {
                 this.$store.dispatch('actionUpdateCurrentPosQNav', this.setQNavCurrent(this.$route));
 
             }catch (e){
                 this.log('ERROR',e)
             }
+
 
 
         },
@@ -271,6 +278,7 @@
         },
 
         data: function () {
+
             return {
                 expand: [],
                 slide: 'slide-right',
@@ -336,5 +344,7 @@
         opacity: 0;
     }
 
-
+    .question {
+        font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    }
 </style>

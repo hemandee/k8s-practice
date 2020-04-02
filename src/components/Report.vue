@@ -27,7 +27,7 @@
         </v-container>
         <div v-if="!errorState">
 
-            <v-expansion-panels v-model="panelValue" focusable class="scroll-target">
+            <v-expansion-panels  focusable class="scroll-target">
 
                 <v-expansion-panel disabled>
                     <v-expansion-panel-header>
@@ -41,15 +41,15 @@
                             <v-col cols="3">
                                 Question
                             </v-col>
-                            <v-col cols="1" class="pl-3">
+                            <v-col cols="2" class="pl-3">
                                 Attempt
                             </v-col>
-                            <v-col>
-                                {{panelValue}}
+                            <v-col cols="1">
+                                Time
+                                (mm:ss)
                             </v-col>
-                            <v-spacer></v-spacer>
-                            <v-col>
-                                Completion Time
+                            <v-col class="pl-8">
+                                Tags
                             </v-col>
 
                         </v-row>
@@ -88,16 +88,18 @@
                                     </v-fade-transition>
                                 </div>
                             </v-col>
-                            <v-col cols="1">
+                            <v-col cols="2">
 
                                 <p :class="tileColor(item.category,item.question_no)">
                                     {{retrieveCondition(item.category,item.question_no).toUpperCase().trim()}}</p>
 
                             </v-col>
-                            <v-spacer></v-spacer>
-                            <v-col >
+                            <v-col cols="1">
                                 <p v-if="retrieveCondition(item.category,item.question_no) === 'completed'">
                                     {{retrieveCompletionTime(item.category,item.question_no)}}</p>
+                            </v-col>
+                            <v-col class="pl-8">
+                                <v-chip small v-for="chip in retrieveTags(item.category,item.question_no)" :key="chip">{{chip}}</v-chip>
                             </v-col>
                         </v-row>
                     </v-expansion-panel-header>
@@ -105,24 +107,29 @@
                         <v-row no-gutters>
                             <v-col class="text-right">
                                 <v-btn
-                                        text
+
                                         color="warning"
                                         :to="generatePath(item.category,item.question_no)"
                                         class="pa-3"
                                         large
                                         outlined
+
+
                                 >Go
                                 </v-btn>
                             </v-col>
                         </v-row>
                         <v-row>
-                            <h2 class="text-primary pa-2">
+                            <h2 class="question pa-2">
+<!--                               <prism language="markdown">{{retrieveQuestion(item.category,item.question_no)}}</prism>-->
                                 {{retrieveQuestion(item.category,item.question_no)}}
                             </h2>
                         </v-row>
-                        <v-row>
-                            <div class="pa-2">
-                                <div v-for="code in  parseAnswer(retrieveAnswer(item.category,item.question_no))"
+                        <v-divider></v-divider>
+<!--                        Disable Row so overflow works with prism -->
+<!--                        <v-row>-->
+                            <div>
+                                <div v-for="code in parseAnswer(retrieveAnswer(item.category,item.question_no))"
                                      v-bind:key="code.uuid">
                                     <prism v-if="code.code !== 'markdown'" v-bind:language="code.code">
                                         {{code.text}}
@@ -133,7 +140,7 @@
                                 </div>
 
                             </div>
-                        </v-row>
+<!--                        </v-row>-->
                     </v-expansion-panel-content>
                 </v-expansion-panel>
             </v-expansion-panels>
@@ -228,9 +235,14 @@
 
                 }
             },
-            highlightCode(){
-                console.log('Highliten code');
-                Prism.highlightAll()
+            retrieveTags(cat,q){
+                let tags = '';
+                try{
+                    tags = qbase['question_set'][cat][q - 1].tags;
+                }catch (e) {
+                    this.log('ERROR','Unable to get Tags for Q',e)
+                }
+                return tags;
             }
         },
 
@@ -245,12 +257,7 @@
 
             }
         },
-        watch: {
-            panelValue : function(elm){
-                console.log(elm)
-                this.highlightCode()
-            }
-        }
+
     }
 </script>
 
@@ -273,8 +280,8 @@
     .font-increase {
         font-size: 120%
     }
-    pre {
-        overflow: auto;
-
+    .question {
+        font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
     }
+
 </style>

@@ -1,3 +1,4 @@
+
 <template>
     <v-app>
         <v-navigation-drawer
@@ -48,10 +49,11 @@
     import SideNav from './components/SideNav.vue'
     import AppBar from "./components/AppBar";
     import {mapGetters, mapState} from 'vuex';
-
+    /* eslint-disable */
     export default {
         name: 'App',
         mounted() {
+
 
         },
         components: {
@@ -67,9 +69,6 @@
         },
         watch : {
             settings(){
-                // console.log(newVal,oldVal)
-                // console.log("Getting Theme App Color " + this.$store.state.settings.options.theme)
-                // console.log(this.$store.state)
                 this.$vuetify.theme.dark = this.$store.getters.getThemeBool
             }
         },
