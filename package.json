@@ -15,7 +15,7 @@
     "lodash.truncate": "^4.4.2",
     "markdown-it": "^10.0.0",
     "material-design-icons-iconfont": "^5.0.1",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "prismjs": "^1.19.0",
     "vue": "^2.6.11",
     "vue-prism-component": "^1.1.1",
